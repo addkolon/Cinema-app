@@ -3,6 +3,10 @@ import session from 'express-session'
 import path from 'path';
 import ejs from 'ejs'
 import dotenv from 'dotenv';
+import cors from 'cors'
+
+// Routes
+import userRouter from './routes/userRouter.js';
 
 dotenv.config();
 
@@ -20,9 +24,14 @@ app.use(session({
   cookie: { maxAge: 10000}
 }))
 
+
+app.use(cors());
 // Om man vill använda servern för API anrop
 
+// Se till att servern skall kunna hantera POST body i json.
+app.use(express.json());
 
+app.use(userRouter)
 
 
 // Använd möjligheten till template - template engine
