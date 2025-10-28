@@ -31,6 +31,10 @@ function Login() {
       .then((data) => {
         console.log("Response from server: ", data)
 
+        if(data.verified) {
+          console.log("verifiera...")
+          
+        }
       });
   }
 

@@ -12,14 +12,10 @@ export function useCarousel({
   const [error, setError] = useState(null);
 
   const animTimeoutRef = useRef(null);
-
-  // Module-level cache
   const cache = useRef(new Map());
 
-  // Wrap mapResponseToSlides in useCallback to stabilize dependency
   const stableMapper = useCallback(mapResponseToSlides, []);
 
-  // Fetch slides only once on mount
   useEffect(() => {
     const controller = new AbortController();
     const cacheKey = apiBase + endpoint;
@@ -39,10 +35,8 @@ export function useCarousel({
         return res.json();
       })
       .then((data) => {
-        const slides = stableMapper(data).map((s) => {
-          const ensureAbsolute = (url) => (url?.startsWith("http") ? url : `${apiBase}${url}`);
-          return { ...s, src: ensureAbsolute(s.src), thumb: ensureAbsolute(s.thumb) };
-        });
+        // FIXED: Don't modify URLs - they're already complete from backend
+        const slides = stableMapper(data);
         cache.current.set(cacheKey, slides);
         setSlides(slides);
       })
@@ -54,11 +48,12 @@ export function useCarousel({
     return () => controller.abort();
   }, [apiBase, endpoint, stableMapper]);
 
-  // Slide rotation
   const rotate = (direction) => {
     if (slides.length <= 1) return;
     setSlides((prev) =>
-      direction === "next" ? [...prev.slice(1), prev[0]] : [prev[prev.length - 1], ...prev.slice(0, -1)]
+      direction === "next"
+        ? [...prev.slice(1), prev[0]]
+        : [prev[prev.length - 1], ...prev.slice(0, -1)]
     );
     setAnimating(direction);
 
@@ -69,10 +64,6 @@ export function useCarousel({
   const handleNext = () => rotate("next");
   const handlePrev = () => rotate("prev");
 
-  // Remove resetAutoRun function completely
-
-  // Remove auto-rotation useEffect completely
-  // Cleanup only animTimeoutRef
   useEffect(() => {
     return () => {
       clearTimeout(animTimeoutRef.current);

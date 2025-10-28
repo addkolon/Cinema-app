@@ -1,0 +1,442 @@
+@use 'abstracts/variables' as *;
+
+// BASE
+@use 'base/reset';
+@use 'base/typography';
+@use 'base/base';
+
+// COMPONENTS
+@use 'components/content-slider';
+
+// LAYOUT
+@use 'layout/header';
+
+
+
+@use 'pages/admin';
+
+
+:root {
+  --light-color: #eee;
+}
+
+a {
+  color: var(--light-color);
+  text-decoration: none;
+}
+
+/* Movie Details Page */
+.movie-detail {
+  min-height: 100vh;
+  background-color: #0a0a0a;
+  color: #fff;
+  position: relative;
+}
+
+.movie-banner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 60vh;
+  background-size: cover;
+  background-position: center;
+  z-index: 0;
+}
+
+.banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 10, 10, 0.3) 0%,
+    rgba(10, 10, 10, 0.9) 70%,
+    rgba(10, 10, 10, 1) 100%
+  );
+}
+
+.movie-content {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 300px 20px 60px;
+  display: flex;
+  gap: 40px;
+}
+
+.movie-poster {
+  flex-shrink: 0;
+}
+
+.movie-poster img {
+  width: 300px;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+}
+
+.movie-info {
+  flex: 1;
+}
+
+.movie-info h1 {
+  font-size: 3rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+}
+
+.movie-meta {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 20px;
+  font-size: 1rem;
+  color: #aaa;
+}
+
+.movie-meta span {
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+}
+
+.movie-categories {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 30px;
+  flex-wrap: wrap;
+}
+
+.category-tag {
+  padding: 6px 16px;
+  background: rgba(76, 175, 80, 0.2);
+  border: 1px solid #4CAF50;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #4CAF50;
+}
+
+.movie-description h2 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.movie-description p {
+  line-height: 1.8;
+  color: #ccc;
+  font-size: 1.1rem;
+}
+
+.movie-credits {
+  margin: 30px 0;
+  padding: 20px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+
+.credit-item {
+  margin-bottom: 10px;
+  font-size: 1rem;
+}
+
+.credit-item strong {
+  color: #4CAF50;
+  margin-right: 8px;
+}
+
+.movie-stars {
+  margin: 30px 0;
+}
+
+.movie-stars h3 {
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+}
+
+.stars-list {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.star-name {
+  padding: 8px 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  font-size: 0.95rem;
+}
+
+.movie-actions {
+  display: flex;
+  gap: 15px;
+  margin: 30px 0;
+  flex-wrap: wrap;
+}
+
+.movie-actions a,
+.movie-actions button {
+  padding: 15px 30px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-trailer {
+  background: #e50914;
+  color: white;
+}
+
+.btn-trailer:hover {
+  background: #f40612;
+  transform: translateY(-2px);
+}
+
+.btn-book {
+  background: #4CAF50;
+  color: white;
+}
+
+.btn-book:hover {
+  background: #45a049;
+  transform: translateY(-2px);
+}
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.movie-showtimes {
+  margin-top: 40px;
+  padding: 30px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+}
+
+.movie-showtimes h3 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.showtime-date {
+  margin-bottom: 25px;
+}
+
+.showtime-date h4 {
+  color: #4CAF50;
+  margin-bottom: 10px;
+}
+
+.screenings {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.screening-time {
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.screening-time .time {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.screening-time .room {
+  font-size: 0.85rem;
+  color: #aaa;
+}
+
+.movie-detail-loading,
+.movie-detail-error {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .movie-content {
+    flex-direction: column;
+    padding-top: 250px;
+  }
+
+  .movie-poster img {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .movie-info h1 {
+    font-size: 2rem;
+  }
+
+  .movie-actions {
+    flex-direction: column;
+  }
+
+  .movie-actions a,
+  .movie-actions button {
+    width: 100%;
+  }
+
+  /* Trailer Modal */
+  .trailer-modal {
+    padding: 10px;
+  }
+
+  .trailer-close {
+    top: -35px;
+    font-size: 1.5rem;
+  }
+}
+
+/* Trailer Modal */
+.trailer-modal {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.trailer-modal-content {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.trailer-close {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  z-index: 10000;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.trailer-close:hover {
+  transform: scale(1.2);
+}
+
+.trailer-wrapper {
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
+  overflow: hidden;
+  border-radius: 8px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+}
+
+.trailer-wrapper iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+/* ANIMATIONS */
+
+@keyframes showContent {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes showImage {
+  to {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    border-radius: 0;
+  }
+}
+
+@keyframes showThumbnail {
+  to {
+    width: 150px;
+  }
+}
+
+@keyframes transformThumbnail {
+  to {
+    transform: translateX(0);
+  }
+}
+
+@keyframes outImage {
+  to {
+    width: 150px;
+    height: 220px;
+    left: 50%;
+    bottom: 50px;
+    border-radius: 20px;
+  }
+}
+
+@keyframes contentOut {
+  to {
+    opacity: 0;
+    transform: translateY(-150px);
+    filter: blur(20px);
+  }
+}
+
+@keyframes timeRunning {
+  to {
+    width: 0;
+  }
+}

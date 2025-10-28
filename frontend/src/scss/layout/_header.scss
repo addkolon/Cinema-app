@@ -1,0 +1,42 @@
+@use "../abstracts/variables" as *;
+
+header {
+  width: 1240px;
+  max-width: 80%;
+  margin: auto;
+  padding: 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0px;
+  margin-top: 60px;
+  height: 60px;
+  font-size: 0.825rem;
+  z-index: 100;
+  background-color: $light-color;
+  color: $dark-color;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  .logotype {
+    img {
+      height: 40px;
+    }
+  }
+
+  nav {
+    ul {
+      list-style: none;
+      display: flex;
+      gap: 40px;
+
+      a {
+        text-decoration: none;
+        color: $dark-color;
+        font-weight: 600;
+        transition: color 0.3s ease;
+      }
+    }
+  }
+}
